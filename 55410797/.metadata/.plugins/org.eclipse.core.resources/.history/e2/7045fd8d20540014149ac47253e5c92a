@@ -1,0 +1,27 @@
+package app.buusk15.androidmysql_55410797;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+
+
+public class MainActivity extends Activity {
+	private EditText edt11,edt2,edt3 ;
+	private Button btn1 ;
+	private ProgressDialog pDialog ;
+	private static String url_Create_student ="http://www.sawasdeemall.com/android/create_student.php";
+	JSONParser jsonParser = new JSONParser();
+	
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+
+    
+}

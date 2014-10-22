@@ -1,0 +1,90 @@
+package app.buusk15.androidmysql_55410797;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+
+public class MainActivity extends Activity {
+	private EditText edt1, edt2, edt3;
+	private Button btn1;
+	private ProgressDialog pDialog;
+	private static String url_Create_student = "http://www.sawasdeemall.com/android/create_student.php";
+	JSONParser jsonParser = new JSONParser();
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		edt1 = (EditText) findViewById(R.id.editText1);
+		edt2 = (EditText) findViewById(R.id.editText2);
+		edt3 = (EditText) findViewById(R.id.editText3);
+		btn1 = (Button) findViewById(R.id.button1);
+		btn1.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				new CreateNewStuden().execute();
+
+			}
+		});
+
+	}
+
+	class CreateNewStuden extends AsyncTask<String, String, String> {
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pDialog = new ProgressDialog(MainActivity.this);
+			pDialog.setMessage("Creating Student....");
+			pDialog.setIndeterminate(false);
+			pDialog.setCancelable(true);
+			pDialog.show();
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			String std_id = edt1.getText().toString();
+			String name = edt2.getText().toString();
+			String tel = edt3.getText().toString();
+
+			List<NameValuePair> list = new ArrayList<NameValuePair>();
+			list.add(new BasicNameValuePair("std_id", std_id));
+			list.add(new BasicNameValuePair("name", name));
+			list.add(new BasicNameValuePair("tel", tel));
+
+			try {
+				JSONObject json = jsonParser.maketHttpRequest(
+						url_Create_student, "POST", list);
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+		}
+	}
+
+}
